@@ -3,7 +3,7 @@
 	<html lang="en">
 	<head>
 	<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>Fixed Rate Testnet USDT / INRP Pool — BNB Testnet Safe App</title>
+	<title>Fixed Rate Testnet USDT / INRP Pool â€” BNB Testnet Safe App</title>
 	<style>
 	body{font-family:Arial,sans-serif;max-width:1120px;margin:auto;padding:20px;background:#f5f6f8;color:#18202a}
 	.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px;margin:14px 0}
@@ -67,8 +67,10 @@
 	</style>
 	
 	
-	<script src="https://cdn.jsdelivr.net/npm/@safe-global/safe-apps-sdk@9.0.0/dist/safe-apps-sdk.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@safe-global/safe-apps-provider@0.18.0/dist/safe-apps-provider.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@safe-global/safe-apps-sdk@9.0.0/dist/safe-apps-sdk.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/@safe-global/safe-apps-provider@0.18.0/dist/safe-apps-provider.min.js"></script>
+
 	
 	<style id="safe-mode-ui">
 	body.safe-mode .standalone-wallet-control,
@@ -116,15 +118,15 @@
 	
 	<div class="card">
 	<h2>Pool</h2>
-	<label>V21 Pool contract address</label><input id="poolAddress" value="0xdfC44A2cb792BA070DF2D75a650C49147EfF6e66" readonly><button type="button" id="loadPool" class="primary">Load Pool</button><div id="poolStatus" class="small"></div><div class="small">After loading the pool, Developer Mode populates the ABI Read/Write function lists.</div><div id="stats" class="grid"></div>
+	<label>V21 Pool contract address</label><input id="poolAddress" value="0xe67aaD72820cec3923398f48b1F844570954837f" readonly><button type="button" id="loadPool" class="primary">Load Pool</button><div id="poolStatus" class="small"></div><div class="small">After loading the pool, Developer Mode populates the ABI Read/Write function lists.</div><div id="stats" class="grid"></div>
 	</div>
 	
 	<section id="publicUI"><div class="card public-swap-card">
 	<h2>Public Swap</h2><div class="notice">Fixed-rate pool: no AMM price slippage. Minimum output equals the current deterministic quote.</div><div id="publicNotice" class="notice">Connect a wallet and load the pool.</div>
 	<div class="approval-mode-panel"><strong>Approval Mode</strong><label><input type="radio" name="approvalMode" value="exact" checked> Exact amount (recommended security)</label><label><input type="radio" name="approvalMode" value="unlimited"> Unlimited approval (faster swaps)</label></div>
 	<div class="swap-grid">
-	<div class="swap-panel"><h3>Buy INRP with USDT</h3><div class="swap-fields"><div class="field"><label for="buyAmount">USDT amount</label><input id="buyAmount" placeholder="100" inputmode="decimal"></div><div class="field"><label for="buyMin">Minimum INRP received (fixed-rate protection)</label><input id="buyMin" readonly></div></div><button type="button" id="quoteBuy" class="quote-button">Quote / Refresh</button><pre id="buyQuote">—</pre><div id="buyAllowance" class="small"></div><div class="swap-action-stack"><button type="button" id="approveUSDT" class="primary">Approve USDT (Exact Amount)</button><button type="button" id="buy" class="primary">Buy INRP</button><button type="button" id="approveBuyExact" class="primary">Approve Exact Amount USDT + Buy INRP</button></div></div>
-	<div class="swap-panel"><h3>Sell INRP for USDT</h3><div class="swap-fields"><div class="field"><label for="sellAmount">INRP amount</label><input id="sellAmount" placeholder="9900" inputmode="decimal"></div><div class="field"><label for="sellMin">Minimum USDT received (fixed-rate protection)</label><input id="sellMin" readonly></div></div><button type="button" id="quoteSell" class="quote-button">Quote / Refresh</button><pre id="sellQuote">—</pre><div id="sellAllowance" class="small"></div><div class="swap-action-stack"><button type="button" id="approveINRP" class="primary">Approve INRP (Exact Amount)</button><button type="button" id="sell" class="primary">Sell INRP</button><button type="button" id="approveSellExact" class="primary">Approve Exact Amount INRP + Sell INRP</button></div></div>
+	<div class="swap-panel"><h3>Buy INRP with USDT</h3><div class="swap-fields"><div class="field"><label for="buyAmount">USDT amount</label><input id="buyAmount" placeholder="100" inputmode="decimal"></div><div class="field"><label for="buyMin">Minimum INRP received (fixed-rate protection)</label><input id="buyMin" readonly></div></div><button type="button" id="quoteBuy" class="quote-button">Quote / Refresh</button><pre id="buyQuote">â€”</pre><div id="buyAllowance" class="small"></div><div class="swap-action-stack"><button type="button" id="approveUSDT" class="primary">Approve USDT (Exact Amount)</button><button type="button" id="buy" class="primary">Buy INRP</button><button type="button" id="approveBuyExact" class="primary">Approve Exact Amount USDT + Buy INRP</button></div></div>
+	<div class="swap-panel"><h3>Sell INRP for USDT</h3><div class="swap-fields"><div class="field"><label for="sellAmount">INRP amount</label><input id="sellAmount" placeholder="9900" inputmode="decimal"></div><div class="field"><label for="sellMin">Minimum USDT received (fixed-rate protection)</label><input id="sellMin" readonly></div></div><button type="button" id="quoteSell" class="quote-button">Quote / Refresh</button><pre id="sellQuote">â€”</pre><div id="sellAllowance" class="small"></div><div class="swap-action-stack"><button type="button" id="approveINRP" class="primary">Approve INRP (Exact Amount)</button><button type="button" id="sell" class="primary">Sell INRP</button><button type="button" id="approveSellExact" class="primary">Approve Exact Amount INRP + Sell INRP</button></div></div>
 	</div></div></section>
 	
 	<div class="stack"><button id="toggleAdminFunctions" type="button" class="hidden">Show Admin Functions</button>
@@ -174,7 +176,7 @@
 	<div class="notice">Owner/Safe only. Enter normal human-readable values. The DApp converts them to the required contract units and executes through the existing wallet/Safe transaction layer.</div>
 	<label>Admin function</label>
 	<select id="humanAdminFunction">
-	<option value="setRate">Set Rate — INRP per USDT</option>
+	<option value="setRate">Set Rate â€” INRP per USDT</option>
 	<option value="setFees">Set Buy/Sell Fees (%)</option>
 	<option value="depositUSDT">Deposit USDT</option>
 	<option value="depositINRP">Deposit INRP</option>
@@ -210,7 +212,7 @@
 	<div class="notice">Developer diagnostics and the human-readable Admin Read / Write interface. Raw uint256/base-unit entry has been removed from this production DApp.</div>
 	<h4>Contract Diagnostics</h4>
 	<button type="button" id="developerRefresh" type="button">Refresh Contract Diagnostics</button>
-	<pre id="developerResult">—</pre>
+	<pre id="developerResult">â€”</pre>
 	<hr>
 	<button type="button" id="toggleDeveloperAdminAbi" type="button">Show Developer Admin Read / Write</button>
 	<section id="developerAdminAbiPanel" class="hidden" style="display:none;margin-top:14px">
@@ -221,7 +223,7 @@
 	<select id="adminReadFunction">
 	<option value="getPoolInfo">Pool information</option><option value="owner">Owner address</option><option value="paused">Pause status</option><option value="rateWAD">Fixed rate</option><option value="buyFeeBps">Buy fee</option><option value="sellFeeBps">Sell fee</option><option value="feesAccruedUSDT">Accrued USDT fees</option><option value="availableUSDT">Available USDT liquidity</option><option value="availableINRP">Available INRP liquidity</option><option value="getBalances">Pool balances</option><option value="blacklisted">Check blacklist status</option><option value="quoteBuy">Quote Buy</option><option value="quoteSell">Quote Sell</option>
 	</select>
-	<div id="adminReadFields"></div><button type="button" id="adminReadExecute" type="button">Read</button><pre id="adminReadResult">—</pre>
+	<div id="adminReadFields"></div><button type="button" id="adminReadExecute" type="button">Read</button><pre id="adminReadResult">â€”</pre>
 	<hr>
 	<h4>Admin Write</h4>
 	<label>Admin function</label>
@@ -237,8 +239,10 @@
 	
 	
 	
-	<script src="https://cdn.jsdelivr.net/npm/ethers@6.14.0/dist/ethers.umd.min.js"></script>
-	<script src="https://unpkg.com/@walletconnect/ethereum-provider@2.23.10/dist/index.umd.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/ethers@6.14.0/dist/ethers.umd.min.js"></script>
+
+	<script src="https://unpkg.com/@walletconnect/ethereum-provider@2.23.10/dist/index.umd.js"></script>
+
 	<script>
 	const ABI=[
 	"function owner() view returns(address)","function paused() view returns(bool)","function blacklisted(address) view returns(bool)",
@@ -300,7 +304,7 @@
 	signer=null;rawProvider=null;safeMode=true;document.body.classList.remove("safe-context-pending","safe-context-error");document.body.classList.add("safe-mode");setStandaloneWalletControlsDisabled(true);
 	$("wallet").textContent="Safe connected: "+short(safeInfo.safeAddress)+" ("+safeInfo.safeAddress+")";
 	$("walletMode").textContent="Connection: Safe Custom App";
-	$("network").textContent="Chain ID: "+cid+" — BSC Testnet detected.";
+	$("network").textContent="Chain ID: "+cid+" â€” BSC Testnet detected.";
 	$("safeStatus").textContent="Safe App detected. Safe: "+safeInfo.safeAddress+" | chain "+cid;
 	return true;
 	}catch(e){
@@ -337,8 +341,8 @@
 	wc.on?.("chainChanged",async()=>{try{signer=await provider.getSigner();await refreshNetwork()}catch(e){console.warn(e)}});
 	}
 	async function switchBsc(){throw Error("This is a Safe-only Custom App. Select BSC Testnet in the Safe interface; standalone network switching is disabled.");if(!rawProvider)throw Error("Connect a wallet first.");if(rawProvider===window.ethereum)await ensureBscInjected();else if(rawProvider.switchChain)await rawProvider.switchChain(97);else await rawProvider.request({method:"wallet_switchEthereumChain",params:[{chainId:BSC_HEX}]});await refreshNetwork()}
-	async function refreshNetwork(){if(!provider)return;const n=await provider.getNetwork();$("network").textContent="Chain ID: "+n.chainId+(n.chainId===BSC_CHAIN_ID?" — BSC Testnet detected.":" — Wrong network.")}
-	async function finishConnection(mode){if(window.parent!==window)throw Error("A separate wallet cannot be connected inside Safe. Reload the Custom App so it can initialize the Safe SDK.");const a=await signer.getAddress(),n=await provider.getNetwork();$("wallet").textContent="Connected: "+short(a)+" ("+a+")";$("walletMode").textContent="Connection: "+mode;$("network").textContent="Chain ID: "+n.chainId+(n.chainId===BSC_CHAIN_ID?" — BSC Testnet detected.":" — Wrong network.");await load()}
+	async function refreshNetwork(){if(!provider)return;const n=await provider.getNetwork();$("network").textContent="Chain ID: "+n.chainId+(n.chainId===BSC_CHAIN_ID?" â€” BSC Testnet detected.":" â€” Wrong network.")}
+	async function finishConnection(mode){if(window.parent!==window)throw Error("A separate wallet cannot be connected inside Safe. Reload the Custom App so it can initialize the Safe SDK.");const a=await signer.getAddress(),n=await provider.getNetwork();$("wallet").textContent="Connected: "+short(a)+" ("+a+")";$("walletMode").textContent="Connection: "+mode;$("network").textContent="Chain ID: "+n.chainId+(n.chainId===BSC_CHAIN_ID?" â€” BSC Testnet detected.":" â€” Wrong network.");await load()}
 	async function load(){
 	if(window.parent===window||!safeMode)throw Error("This is a Safe-only Custom App. Open it inside multisig.bnbchain.org and wait for Safe connection before loading the pool.");
 	const a=TESTNET_POOL;$("poolAddress").value=a;
@@ -362,8 +366,8 @@
 	function addr(v){if(!ethers.isAddress(v))throw Error("Invalid address.");return v}
 	function minOut(q){return q}
 	async function allowanceInfo(tokenAddr,dec,label,amountHuman){if(!contract||!provider)return null;const t=new ethers.Contract(tokenAddr,ERC20ABI,provider),u=await accountAddress(),pool=await contract.getAddress();if(!u)return null;const bal=await t.balanceOf(u),allow=await t.allowance(u,pool),req=amountHuman?amount(amountHuman,dec):0n;return {bal,allow,req,label,dec}}
-	async function preflightBuy(){if(!contract||!$("buyAmount").value)return;const i=await allowanceInfo(await contract.USDT(),18,"USDT",$("buyAmount").value);if(!i)return;$("buyAllowance").textContent="USDT balance: "+ethers.formatUnits(i.bal,18)+" | Allowance: "+ethers.formatUnits(i.allow,18)+" | Required: "+ethers.formatUnits(i.req,18)+(i.bal<i.req?" — INSUFFICIENT BALANCE":i.allow<i.req?" — APPROVAL REQUIRED":" — READY")}
-	async function preflightSell(){if(!contract||!$("sellAmount").value)return;const i=await allowanceInfo(await contract.INRP(),6,"INRP",$("sellAmount").value);if(!i)return;$("sellAllowance").textContent="INRP balance: "+ethers.formatUnits(i.bal,6)+" | Allowance: "+ethers.formatUnits(i.allow,6)+" | Required: "+ethers.formatUnits(i.req,6)+(i.bal<i.req?" — INSUFFICIENT BALANCE":i.allow<i.req?" — APPROVAL REQUIRED":" — READY")}
+	async function preflightBuy(){if(!contract||!$("buyAmount").value)return;const i=await allowanceInfo(await contract.USDT(),18,"USDT",$("buyAmount").value);if(!i)return;$("buyAllowance").textContent="USDT balance: "+ethers.formatUnits(i.bal,18)+" | Allowance: "+ethers.formatUnits(i.allow,18)+" | Required: "+ethers.formatUnits(i.req,18)+(i.bal<i.req?" â€” INSUFFICIENT BALANCE":i.allow<i.req?" â€” APPROVAL REQUIRED":" â€” READY")}
+	async function preflightSell(){if(!contract||!$("sellAmount").value)return;const i=await allowanceInfo(await contract.INRP(),6,"INRP",$("sellAmount").value);if(!i)return;$("sellAllowance").textContent="INRP balance: "+ethers.formatUnits(i.bal,6)+" | Allowance: "+ethers.formatUnits(i.allow,6)+" | Required: "+ethers.formatUnits(i.req,6)+(i.bal<i.req?" â€” INSUFFICIENT BALANCE":i.allow<i.req?" â€” APPROVAL REQUIRED":" â€” READY")}
 	async function preflight(){await preflightBuy();await preflightSell()}
 	async function quoteBuy(){const x=amount($("buyAmount").value,18),q=await contract.quoteBuy(x),m=minOut(q[1]);$("buyMin").value=ethers.formatUnits(m,6);$("buyQuote").textContent="USDT fee: "+ethers.formatUnits(q[0],18)+"\nQuoted INRP: "+ethers.formatUnits(q[1],6)+"\nMinimum INRP received: "+ethers.formatUnits(m,6);await preflightBuy()}
 	async function quoteSell(){const x=amount($("sellAmount").value,6),q=await contract.quoteSell(x),m=minOut(q[2]);$("sellMin").value=ethers.formatUnits(m,18);$("sellQuote").textContent="USDT gross: "+ethers.formatUnits(q[0],18)+"\nUSDT fee: "+ethers.formatUnits(q[1],18)+"\nQuoted USDT: "+ethers.formatUnits(q[2],18)+"\nMinimum USDT received: "+ethers.formatUnits(m,18);await preflightSell()}
@@ -400,9 +404,9 @@
 	}
 	
 	const developerAdminUI={
-	renderRead(){const f=$("adminReadFunction").value;let s="";if(f==="blacklisted")s='<label>User address</label><input id="darAddress" placeholder="0x...">';else if(f==="quoteBuy")s='<label>USDT amount</label><input id="darUSDT" placeholder="100" inputmode="decimal">';else if(f==="quoteSell")s='<label>INRP amount</label><input id="darINRP" placeholder="9900" inputmode="decimal">';$("adminReadFields").innerHTML=s;$("adminReadResult").textContent="—";},
+	renderRead(){const f=$("adminReadFunction").value;let s="";if(f==="blacklisted")s='<label>User address</label><input id="darAddress" placeholder="0x...">';else if(f==="quoteBuy")s='<label>USDT amount</label><input id="darUSDT" placeholder="100" inputmode="decimal">';else if(f==="quoteSell")s='<label>INRP amount</label><input id="darINRP" placeholder="9900" inputmode="decimal">';$("adminReadFields").innerHTML=s;$("adminReadResult").textContent="â€”";},
 	renderWrite(){const f=$("adminWriteFunction").value;const F=(l,id,p,t="text")=>`<label>${l}</label><input id="${id}" type="${t}" ${t==="number"?'step="any"':''} placeholder="${p}">`,A=(l,id)=>F(l,id,"0x...");let s="";
-	if(f==="setRate")s=F("Fixed rate — INRP per 1 USDT","dawRate","99","number");
+	if(f==="setRate")s=F("Fixed rate â€” INRP per 1 USDT","dawRate","99","number");
 	else if(f==="setFees")s=F("Buy fee (%)","dawBuyFee","0.30","number")+F("Sell fee (%)","dawSellFee","0.30","number");
 	else if(f==="blacklist"||f==="unblacklist")s=A("User address","dawAccount");
 	else if(f==="depositUSDT")s=F("USDT amount","dawUSDT","1000","number");
@@ -511,7 +515,7 @@
 	initAdvancedToggles();
 	async function initializeApp(){try{const inSafe=await detectSafe();if(inSafe){await load();return;}$("safeStatus").textContent="Standalone browser mode. This Safe-only app must be opened inside multisig.bnbchain.org.";}catch(e){console.warn("App initialization:",e)}}
 	setStandaloneWalletControlsDisabled(true);
-	if(window.parent!==window){document.body.classList.add("safe-context-pending");$("walletMode").textContent="Connection: Initializing Safe…";}
+	if(window.parent!==window){document.body.classList.add("safe-context-pending");$("walletMode").textContent="Connection: Initializing Safeâ€¦";}
 	const startSafeOnlyApp=()=>setTimeout(()=>initializeApp(),150);
 	if(document.readyState==="loading")window.addEventListener("DOMContentLoaded",startSafeOnlyApp,{once:true});else startSafeOnlyApp();
 	$("adminUI").classList.add("hidden");$("adminUI").style.display="none";
@@ -615,8 +619,8 @@
 	});
 	})();
 	</script>
-
 	
+
 	</body>
 	</html>
 	
