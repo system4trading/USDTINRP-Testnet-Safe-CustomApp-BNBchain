@@ -1,0 +1,623 @@
+	<!doctype html>
+	
+	<html lang="en">
+	<head>
+	<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Fixed Rate Testnet USDT / INRP Pool — BNB Testnet Safe App</title>
+	<style>
+	body{font-family:Arial,sans-serif;max-width:1120px;margin:auto;padding:20px;background:#f5f6f8;color:#18202a}
+	.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px;margin:14px 0}
+	h1,h2,h3{margin-top:0}.row{display:flex;gap:10px;flex-wrap:wrap}.stack{display:flex;flex-direction:column;gap:12px}.stack>button,.stack>label{margin:0}.radio-group{display:flex;flex-direction:column;gap:8px}.field{flex:1;min-width:190px}
+	input,select,button{width:100%;box-sizing:border-box;padding:10px;margin:5px 0;border:1px solid #bbb;border-radius:6px}
+	button{cursor:pointer;font-weight:600}.primary{background:#222;color:#fff}.danger{background:#7a1f1f;color:#fff}
+	.small{font-size:13px;color:#59636e}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+	.stat{border:1px solid #ddd;border-radius:8px;padding:12px}.stat b{display:block;font-size:17px;margin-top:4px;word-break:break-word}
+	.hidden{display:none!important}.ok{color:#126b2e}.warn{color:#8a5a00}.err{color:#9b1c1c}
+	hr{border:0;border-top:1px solid #eee;margin:16px 0}code{background:#f0f1f2;padding:2px 4px;border-radius:4px}
+	details summary{cursor:pointer;font-weight:700}label{display:block;margin-top:5px}.notice{padding:10px;border-radius:7px;background:#f1f2f4;margin:8px 0}
+	</style>
+	
+	
+	
+	
+	<style id="v17-ui-spacing">
+	#publicUI .approval-mode-stack,
+	#publicUI .swap-action-stack,
+	#publicUI .admin-action-stack,
+	#publicUI .developer-action-stack {
+	display:flex !important;
+	flex-direction:column !important;
+	align-items:stretch !important;
+	gap:12px !important;
+	width:100% !important;
+	}
+	#publicUI .approval-mode-stack label {
+	display:block !important;
+	margin:0 !important;
+	padding:2px 0 !important;
+	}
+	#publicUI .swap-action-stack > button,
+	#publicUI .admin-action-stack > button,
+	#publicUI .developer-action-stack > button {
+	display:block !important;
+	width:100% !important;
+	margin:0 !important;
+	}
+	#publicUI .approval-mode-stack input[type="radio"] {
+	width:auto !important;
+	margin:0 7px 0 0 !important;
+	}
+	#toggleAdminFunctions,#toggleDeveloperMode,#toggleDeveloperAdminAbi {
+	display:block !important;
+	width:100% !important;
+	margin:12px 0 !important;
+	}
+	</style>
+	
+	
+	<style id="v18-safe-batch-ui">
+	.safe-batch-note{
+	margin-top:8px;
+	padding:10px;
+	border:1px solid rgba(255,255,255,.15);
+	border-radius:8px;
+	font-size:.9em;
+	}
+	.safe-batch-status{margin-top:8px;font-size:.9em}
+	</style>
+	
+	
+	<script src="https://cdn.jsdelivr.net/npm/@safe-global/safe-apps-sdk@9.0.0/dist/safe-apps-sdk.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@safe-global/safe-apps-provider@0.18.0/dist/safe-apps-provider.min.js"></script>
+	
+	<style id="safe-mode-ui">
+	body.safe-mode .standalone-wallet-control,
+	body.safe-context-pending .standalone-wallet-control,
+	body.safe-context-error .standalone-wallet-control{display:block!important;opacity:.48!important;cursor:not-allowed!important;filter:grayscale(1)}
+	.standalone-wallet-control:disabled{opacity:.48;cursor:not-allowed;filter:grayscale(1)}
+	#loadPool{max-width:220px}
+	body.safe-mode #safeCustomAppPanel{display:block!important}
+	body.safe-mode #wallet{font-weight:700}
+	body.safe-mode #safeStatus{color:#126b2e}
+	</style>
+	<style id="public-swap-alignment-fix">
+	.public-swap-card{min-width:0}.approval-mode-panel{display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid #e1e4e8;border-radius:8px;margin:12px 0 16px;background:#fafbfc}.approval-mode-panel label{display:flex;align-items:center;gap:8px;margin:0;font-weight:400}.approval-mode-panel input[type=radio]{width:auto;margin:0;flex:0 0 auto}
+	.swap-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:stretch}.swap-panel{min-width:0;border:1px solid #e0e3e7;border-radius:9px;padding:16px;display:flex;flex-direction:column;gap:10px}.swap-panel h3{margin:0 0 2px;line-height:1.25}.swap-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:start}.swap-fields .field{min-width:0}.swap-fields label{min-height:34px;line-height:1.3;margin:0 0 5px}.swap-fields input{width:100%;min-width:0;margin:0}.swap-panel .quote-button{margin:0;width:100%}.swap-panel pre{white-space:pre-wrap;overflow-wrap:anywhere;min-height:1.2em;margin:0}.swap-action-stack{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:9px!important;width:100%!important;margin-top:auto}.swap-action-stack>button{width:100%!important;min-height:40px;margin:0!important;white-space:normal;line-height:1.25}body.safe-mode .standalone-wallet-control,
+	body.safe-context-pending .standalone-wallet-control,
+	body.safe-context-error .standalone-wallet-control{display:block!important;opacity:.48!important;cursor:not-allowed!important;filter:grayscale(1)}
+	.standalone-wallet-control:disabled{opacity:.48;cursor:not-allowed;filter:grayscale(1)}
+	#loadPool{max-width:220px}@media(max-width:760px){.swap-grid{grid-template-columns:minmax(0,1fr)}.swap-panel{padding:13px}}@media(max-width:430px){.swap-fields{grid-template-columns:minmax(0,1fr)}}
+	</style>
+	</head>
+	<body>
+	
+	<div id="safeCustomAppPanel" style="display:none;margin:12px 0;padding:12px;border:1px solid #888;border-radius:8px;">
+	<strong>Safe Custom App</strong>
+	<div style="margin-top:6px;">
+	Safe mode detected. This Testnet Safe Custom App uses the Safe itself as the account and proposes transactions through multisig.bnbchain.org.
+	</div>
+	<div id="safeBatchStatus" class="safe-batch-status" style="margin-top:8px;"></div>
+	</div>
+	
+	<h1>Fixed Rate USDT / INRP Pool - BNB Testnet Safe App</h1>
+	
+	<div class="card">
+	<h2>Wallet Connection</h2>
+	<div class="row">
+	<div class="field"><button type="button" class="standalone-wallet-control" id="connectInjected" class="primary">Connect Injected Wallet</button></div>
+	<div class="field"><button type="button" class="standalone-wallet-control" id="connectWC">Connect with WalletConnect</button></div>
+	<div class="field"><button type="button" class="standalone-wallet-control" id="switchBsc">Switch to BSC Testnet</button></div>
+	<div class="field"><button type="button" class="standalone-wallet-control" id="disconnect">Disconnect</button></div>
+	</div>
+	<div id="wallet">Not connected</div><div id="network" class="small"></div>
+	<div id="walletMode" class="small"></div><div id="safeStatus" class="small"></div>
+	<div class="small">Inside multisig.bnbchain.org, the Safe itself is the connected account. No injected wallet or WalletConnect connection is used inside the Custom App.</div>
+	</div>
+	
+	<div class="card">
+	<h2>Pool</h2>
+	<label>V21 Pool contract address</label><input id="poolAddress" value="0xdfC44A2cb792BA070DF2D75a650C49147EfF6e66" readonly><button type="button" id="loadPool" class="primary">Load Pool</button><div id="poolStatus" class="small"></div><div class="small">After loading the pool, Developer Mode populates the ABI Read/Write function lists.</div><div id="stats" class="grid"></div>
+	</div>
+	
+	<section id="publicUI"><div class="card public-swap-card">
+	<h2>Public Swap</h2><div class="notice">Fixed-rate pool: no AMM price slippage. Minimum output equals the current deterministic quote.</div><div id="publicNotice" class="notice">Connect a wallet and load the pool.</div>
+	<div class="approval-mode-panel"><strong>Approval Mode</strong><label><input type="radio" name="approvalMode" value="exact" checked> Exact amount (recommended security)</label><label><input type="radio" name="approvalMode" value="unlimited"> Unlimited approval (faster swaps)</label></div>
+	<div class="swap-grid">
+	<div class="swap-panel"><h3>Buy INRP with USDT</h3><div class="swap-fields"><div class="field"><label for="buyAmount">USDT amount</label><input id="buyAmount" placeholder="100" inputmode="decimal"></div><div class="field"><label for="buyMin">Minimum INRP received (fixed-rate protection)</label><input id="buyMin" readonly></div></div><button type="button" id="quoteBuy" class="quote-button">Quote / Refresh</button><pre id="buyQuote">—</pre><div id="buyAllowance" class="small"></div><div class="swap-action-stack"><button type="button" id="approveUSDT" class="primary">Approve USDT (Exact Amount)</button><button type="button" id="buy" class="primary">Buy INRP</button><button type="button" id="approveBuyExact" class="primary">Approve Exact Amount USDT + Buy INRP</button></div></div>
+	<div class="swap-panel"><h3>Sell INRP for USDT</h3><div class="swap-fields"><div class="field"><label for="sellAmount">INRP amount</label><input id="sellAmount" placeholder="9900" inputmode="decimal"></div><div class="field"><label for="sellMin">Minimum USDT received (fixed-rate protection)</label><input id="sellMin" readonly></div></div><button type="button" id="quoteSell" class="quote-button">Quote / Refresh</button><pre id="sellQuote">—</pre><div id="sellAllowance" class="small"></div><div class="swap-action-stack"><button type="button" id="approveINRP" class="primary">Approve INRP (Exact Amount)</button><button type="button" id="sell" class="primary">Sell INRP</button><button type="button" id="approveSellExact" class="primary">Approve Exact Amount INRP + Sell INRP</button></div></div>
+	</div></div></section>
+	
+	<div class="stack"><button id="toggleAdminFunctions" type="button" class="hidden">Show Admin Functions</button>
+	<section id="adminUI" class="hidden" style="display:none;margin-top:14px">
+	<div class="card">
+	<h2>Owner / Safe Admin Panel</h2><div class="small">All token and BNB amounts are human-readable. The DApp converts them to uint256 base units automatically.</div><div id="adminNotice" class="notice">Only the on-chain owner can execute these functions. A Safe owner should use this DApp from the Safe App context so transactions can be proposed to the Safe.</div>
+	<h3>Pool parameters</h3>
+	<div class="row"><div class="field"><label>Fixed rate (INRP per 1 USDT)</label><input id="adminRate" placeholder="99"></div>
+	<div class="field"><label>Buy fee (%)</label><input id="adminBuyFee" placeholder="0.30"></div>
+	<div class="field"><label>Sell fee (%)</label><input id="adminSellFee" placeholder="0.30"></div></div>
+	<button type="button" id="setParameters" class="primary">Set Rate + Fees</button>
+	
+	<h3>Pause / blacklist</h3>
+	<div class="row"><div class="field"><button type="button" id="pauseBtn">Pause Swaps</button></div><div class="field"><button type="button" id="unpauseBtn">Unpause Swaps</button></div>
+	<div class="field"><input id="blacklistAddress" placeholder="User address"><button type="button" id="blacklistBtn">Blacklist</button></div>
+	<div class="field"><input id="unblacklistAddress" placeholder="User address"><button type="button" id="unblacklistBtn">Unblacklist</button></div></div>
+	
+	<h3>Deposits</h3>
+	<div class="row"><div class="field"><label>USDT deposit</label><input id="depositUSDTAmount" placeholder="1000"></div>
+	<div class="field"><label>INRP deposit</label><input id="depositINRPAmount" placeholder="99000"></div></div>
+	<div class="row"><div class="field"><button type="button" id="depositUSDTBtn">Deposit USDT</button></div><div class="field"><button type="button" id="depositINRPBtn">Deposit INRP</button></div><div class="field"><button type="button" id="depositBothBtn">Deposit Both</button></div></div>
+	
+	<h3>Withdrawals</h3>
+	<div class="row"><div class="field"><label>USDT amount</label><input id="withdrawUSDTAmount" placeholder="1000"></div>
+	<div class="field"><label>INRP amount</label><input id="withdrawINRPAmount" placeholder="99000"></div><div class="field"><label>Recipient</label><input id="withdrawTo" placeholder="0x..."></div></div>
+	<div class="row"><div class="field"><button type="button" id="withdrawUSDTBtn">Withdraw USDT liquidity</button></div><div class="field"><button type="button" id="withdrawINRPBtn">Withdraw INRP liquidity</button></div><div class="field"><button type="button" id="withdrawBothBtn">Withdraw Both</button></div></div>
+	
+	<h3>Fees</h3>
+	<div class="row"><div class="field"><label>Fee USDT amount</label><input id="feeAmount" placeholder="100"></div><div class="field"><label>Fee recipient</label><input id="feeTo" placeholder="0x..."></div></div>
+	<div class="row"><div class="field"><button type="button" id="withdrawFeeBtn">Withdraw Fees</button></div><div class="field"><button type="button" id="withdrawAllFeeBtn">Withdraw All Fees</button></div></div>
+	
+	<h3>Rescue</h3>
+	<div class="row"><div class="field"><label>Other BEP-20 token</label><input id="rescueToken" placeholder="0x..."></div><div class="field"><label>Token amount (human units)</label><input id="rescueAmount" placeholder="100"></div><div class="field"><label>Recipient</label><input id="rescueTo" placeholder="0x..."></div></div>
+	<button type="button" id="rescueTokenBtn">Rescue BEP-20 token</button>
+	<div class="row"><div class="field"><label>BNB amount</label><input id="rescueBNBAmount" placeholder="0.1"></div><div class="field"><label>BNB recipient</label><input id="rescueBNBTo" placeholder="0x..."></div></div>
+	<button type="button" id="rescueBNBBtn">Rescue BNB</button>
+	
+	<h3>Ownership</h3>
+	<div class="row"><div class="field"><label>New owner</label><input id="newOwner" placeholder="0x..."></div><div class="field"><button type="button" id="transferOwnershipBtn">Transfer Ownership</button></div>
+	<div class="field"><button type="button" id="renounceOwnershipBtn" class="danger">Renounce Ownership</button></div></div>
+	</div>
+	
+	<div class="card">
+	<button type="button" id="toggleHumanAdminAbi" type="button">Show Human-Readable Admin ABI Read / Write</button>
+	<section id="humanAdminAbiPanel" class="hidden" style="display:none;margin-top:14px">
+	<h3>Human-Readable Admin ABI Read / Write</h3>
+	<div class="notice">Owner/Safe only. Enter normal human-readable values. The DApp converts them to the required contract units and executes through the existing wallet/Safe transaction layer.</div>
+	<label>Admin function</label>
+	<select id="humanAdminFunction">
+	<option value="setRate">Set Rate — INRP per USDT</option>
+	<option value="setFees">Set Buy/Sell Fees (%)</option>
+	<option value="depositUSDT">Deposit USDT</option>
+	<option value="depositINRP">Deposit INRP</option>
+	<option value="depositLiquidity">Deposit USDT + INRP</option>
+	<option value="withdrawUSDT">Withdraw USDT</option>
+	<option value="withdrawINRP">Withdraw INRP</option>
+	<option value="withdrawLiquidity">Withdraw USDT + INRP</option>
+	<option value="withdrawFees">Withdraw USDT Fees</option>
+	<option value="withdrawAllFees">Withdraw All USDT Fees</option>
+	<option value="pause">Pause</option>
+	<option value="unpause">Unpause</option>
+	<option value="blacklist">Blacklist User</option>
+	<option value="unblacklist">Unblacklist User</option>
+	<option value="rescueToken">Rescue BEP-20 Token</option>
+	<option value="rescueBNB">Rescue BNB</option>
+	<option value="transferOwnership">Transfer Ownership</option>
+	<option value="renounceOwnership">Renounce Ownership</option>
+	</select>
+	<div id="humanAdminFields"></div>
+	<button type="button" id="humanAdminExecute" class="primary" type="button">Execute Admin Function</button>
+	<div id="humanAdminPrepared" class="small"></div>
+	<div id="humanAdminStatus" class="small"></div>
+	</section>
+	</div>
+	
+	</section></div>
+	
+	
+	<div class="card">
+	<div class="stack"><button type="button" id="toggleDeveloperMode">Show Developer Mode</button></div>
+	<section id="developerModePanel" class="hidden" style="display:none;margin-top:14px">
+	<h3>Developer Mode</h3>
+	<div class="notice">Developer diagnostics and the human-readable Admin Read / Write interface. Raw uint256/base-unit entry has been removed from this production DApp.</div>
+	<h4>Contract Diagnostics</h4>
+	<button type="button" id="developerRefresh" type="button">Refresh Contract Diagnostics</button>
+	<pre id="developerResult">—</pre>
+	<hr>
+	<button type="button" id="toggleDeveloperAdminAbi" type="button">Show Developer Admin Read / Write</button>
+	<section id="developerAdminAbiPanel" class="hidden" style="display:none;margin-top:14px">
+	<h3>Developer Admin Read / Write</h3>
+	<div class="notice">Human-readable interface for owner/admin functions. Amounts are entered in normal token units such as USDT, INRP and BNB. Fees are entered as percentages such as 0.30%. The DApp converts values to contract units automatically before reading or executing the contract.</div>
+	<h4>Admin / Pool Read</h4>
+	<label>Read function</label>
+	<select id="adminReadFunction">
+	<option value="getPoolInfo">Pool information</option><option value="owner">Owner address</option><option value="paused">Pause status</option><option value="rateWAD">Fixed rate</option><option value="buyFeeBps">Buy fee</option><option value="sellFeeBps">Sell fee</option><option value="feesAccruedUSDT">Accrued USDT fees</option><option value="availableUSDT">Available USDT liquidity</option><option value="availableINRP">Available INRP liquidity</option><option value="getBalances">Pool balances</option><option value="blacklisted">Check blacklist status</option><option value="quoteBuy">Quote Buy</option><option value="quoteSell">Quote Sell</option>
+	</select>
+	<div id="adminReadFields"></div><button type="button" id="adminReadExecute" type="button">Read</button><pre id="adminReadResult">—</pre>
+	<hr>
+	<h4>Admin Write</h4>
+	<label>Admin function</label>
+	<select id="adminWriteFunction">
+	<option value="setRate">Change fixed exchange rate</option><option value="setFees">Change buy / sell fees</option><option value="pause">Pause swaps</option><option value="unpause">Unpause swaps</option><option value="blacklist">Blacklist user</option><option value="unblacklist">Unblacklist user</option><option value="depositUSDT">Deposit USDT</option><option value="depositINRP">Deposit INRP</option><option value="depositLiquidity">Deposit USDT + INRP</option><option value="withdrawUSDT">Withdraw USDT liquidity</option><option value="withdrawINRP">Withdraw INRP liquidity</option><option value="withdrawLiquidity">Withdraw USDT + INRP</option><option value="withdrawFees">Withdraw accumulated USDT fees</option><option value="withdrawAllFees">Withdraw all accumulated USDT fees</option><option value="rescueToken">Rescue other BEP-20 token</option><option value="rescueBNB">Rescue BNB</option><option value="transferOwnership">Transfer ownership</option><option value="renounceOwnership">Renounce ownership</option>
+	</select>
+	<div id="adminWriteFields"></div><button type="button" id="adminWriteExecute" class="primary" type="button">Execute Admin Function</button><div id="adminWritePrepared" class="small"></div><div id="adminWriteStatus" class="small"></div>
+	</section>
+	</section>
+	</div>
+	
+	<div class="card"><h2>Transaction Status</h2><div id="txStatus">No transaction yet.</div><div id="txLink"></div></div>
+	
+	
+	
+	<script src="https://cdn.jsdelivr.net/npm/ethers@6.14.0/dist/ethers.umd.min.js"></script>
+	<script src="https://unpkg.com/@walletconnect/ethereum-provider@2.23.10/dist/index.umd.js"></script>
+	<script>
+	const ABI=[
+	"function owner() view returns(address)","function paused() view returns(bool)","function blacklisted(address) view returns(bool)",
+	"function rateWAD() view returns(uint256)","function buyFeeBps() view returns(uint256)","function sellFeeBps() view returns(uint256)",
+	"function feesAccruedUSDT() view returns(uint256)","function USDT() view returns(address)","function INRP() view returns(address)",
+	"function availableUSDT() view returns(uint256)","function availableINRP() view returns(uint256)",
+	"function getBalances() view returns(uint256,uint256,uint256,uint256)",
+	"function getPoolInfo() view returns(address,address,address,uint256,uint256,uint256,uint256,uint256,uint256,uint256,bool)",
+	"function quoteBuy(uint256) view returns(uint256,uint256)","function quoteSell(uint256) view returns(uint256,uint256,uint256)",
+	"function buyINRP(uint256,uint256)","function sellINRP(uint256,uint256)",
+	"function setRateWAD(uint256)","function setRate(uint256)","function setFees(uint256,uint256)",
+	"function pause()","function unpause()","function blacklist(address)","function unblacklist(address)",
+	"function depositUSDT(uint256)","function depositINRP(uint256)","function depositLiquidity(uint256,uint256)",
+	"function withdrawUSDT(uint256,address)","function withdrawINRP(uint256,address)","function withdrawLiquidity(uint256,uint256,address)",
+	"function withdrawFees(uint256,address)","function withdrawAllFees(address)","function rescueToken(address,uint256,address)",
+	"function rescueBNB(uint256,address)","function transferOwnership(address)","function renounceOwnership()"
+	];
+	const ERC20ABI=["function decimals() view returns(uint8)","function balanceOf(address) view returns(uint256)","function allowance(address,address) view returns(uint256)","function approve(address,uint256) returns(bool)"];
+	const BSC_CHAIN_ID=97n,BSC_HEX="0x61";
+	const TESTNET_POOL="0xe67aaD72820cec3923398f48b1F844570954837f";
+	const TESTNET_USDT="0xAf6058de5bccfCB27d8850D6D88bCcb90a382095";
+	const TESTNET_INRP="0xfc0cA74F0a6C8dD2FFe43029643C8cFaa00b9B76";
+	const BSC_PARAMS={chainId:"0x61",chainName:"BSC Testnet",nativeCurrency:{name:"Testnet BNB",symbol:"tBNB",decimals:18},rpcUrls:["https://data-seed-prebsc-1-s1.bnbchain.org:8545"],blockExplorerUrls:["https://testnet.bscscan.com"]};
+	const RPC_BY_CHAIN={97:"https://data-seed-prebsc-1-s1.bnbchain.org:8545"};
+	const EXPLORER_BY_CHAIN={97:"https://testnet.bscscan.com"};
+	const WC_PROJECT_ID="ccef25dcfdb87869f9617936952c987d";
+	let provider=null,signer=null,contract=null,rawProvider=null,safeSdk=null,safeInfo=null,safeMode=false,safeDetectionError=null;
+	const $=id=>document.getElementById(id),err=e=>e?.shortMessage||e?.reason||e?.message||String(e),short=a=>a?a.slice(0,6)+"..."+a.slice(-4):"";
+	function safeChainId(){return safeInfo?Number(safeInfo.chainId):null}
+	function accountAddress(){if(safeMode&&safeInfo?.safeAddress)return safeInfo.safeAddress;if(signer)return signer.getAddress();return null}
+	function explorerTx(h){return (EXPLORER_BY_CHAIN[safeChainId()||97]||EXPLORER_BY_CHAIN[97])+"/tx/"+h}
+	function setTx(msg,h){$("txStatus").textContent=msg;$("txLink").innerHTML=h?'<a target="_blank" rel="noopener" href="'+explorerTx(h)+'">View on Testnet BscScan</a>':""}
+	function safeSdkClass(mod){return mod?.default||mod?.SafeAppsSDK||mod}
+	function setStandaloneWalletControlsDisabled(disabled){
+	["connectInjected","connectWC","switchBsc","disconnect"].forEach(id=>{
+	const el=$(id);if(el){el.disabled=!!disabled;el.setAttribute("aria-disabled",String(!!disabled));el.title=disabled?"Unavailable inside Safe Custom App":"Available in standalone browser mode";}
+	});
+	}
+	async function detectSafe(){
+	safeSdk=null;safeInfo=null;safeMode=false;safeDetectionError=null;document.body.classList.remove("safe-mode","safe-context-error","safe-context-pending");
+	if(window.parent!==window){document.body.classList.add("safe-context-pending");setStandaloneWalletControlsDisabled(true);}
+	if(window.parent===window){setStandaloneWalletControlsDisabled(true);document.body.classList.add("safe-context-error");$("safeStatus").textContent="Safe-only app: open this Custom App from inside your Safe. Standalone wallet connections are intentionally disabled.";$("publicNotice").textContent="This version is designed to run inside Safe Custom Apps only. Open it from your Safe interface to connect the Safe account.";$("walletMode").textContent="Connection: Open inside Safe";return false}
+	try{
+	let SDK=window.SafeAppsSDK?.default||window.SafeAppsSDK||window.safeAppsSDK?.default||window.safeAppsSDK;
+	if(!SDK){
+	const mod=await import("https://esm.sh/@safe-global/safe-apps-sdk@9.0.0");
+	SDK=safeSdkClass(mod);
+	}
+	if(typeof SDK!=="function")throw Error("Safe Apps SDK constructor was not available. Check that the Safe Apps SDK script loaded.");
+	safeSdk=new SDK({allowedDomains:[/^multisig\.bnbchain\.org$/, /^system4trading\.github\.io$/]});
+	safeInfo=await Promise.race([
+	safeSdk.safe.getInfo(),
+	new Promise((_,reject)=>setTimeout(()=>reject(Error("Timed out waiting for the Safe Apps SDK handshake. Reopen the app from the Safe interface and verify the hosted URL.")),12000))
+	]);
+	if(!safeInfo?.safeAddress)throw Error("Safe context was not returned.");
+	const cid=Number(safeInfo.chainId);
+	if(cid!==97)throw Error("This Safe Custom App is for BSC Testnet only (chain 97). Open it from multisig.bnbchain.org on a BSC Testnet Safe.");
+	provider=new ethers.JsonRpcProvider(RPC_BY_CHAIN[cid]);
+	signer=null;rawProvider=null;safeMode=true;document.body.classList.remove("safe-context-pending","safe-context-error");document.body.classList.add("safe-mode");setStandaloneWalletControlsDisabled(true);
+	$("wallet").textContent="Safe connected: "+short(safeInfo.safeAddress)+" ("+safeInfo.safeAddress+")";
+	$("walletMode").textContent="Connection: Safe Custom App";
+	$("network").textContent="Chain ID: "+cid+" — BSC Testnet detected.";
+	$("safeStatus").textContent="Safe App detected. Safe: "+safeInfo.safeAddress+" | chain "+cid;
+	return true;
+	}catch(e){
+	console.warn("Safe detection:",e);
+	safeDetectionError=e;
+	safeSdk=null;safeInfo=null;safeMode=false;
+	if(window.parent!==window){
+	document.body.classList.remove("safe-context-pending");document.body.classList.add("safe-context-error");setStandaloneWalletControlsDisabled(true);
+	$("safeStatus").textContent="Safe iframe detected, but the Safe Apps SDK handshake failed. Wallet connection buttons are disabled; reload the Custom App in Safe or check SDK/network access.";
+	$("publicNotice").textContent="Safe connection could not be initialized. Reload this Custom App inside Safe before proposing transactions.";
+	} else {
+	document.body.classList.remove("safe-context-error","safe-context-pending");setStandaloneWalletControlsDisabled(false);
+	$("safeStatus").textContent="Standalone browser mode.";
+	}
+	return false;
+	}
+	}
+	async function ensureBscInjected(){
+	if(!window.ethereum)throw Error("No injected wallet found.");
+	const n=await new ethers.BrowserProvider(window.ethereum).getNetwork();
+	if(n.chainId===BSC_CHAIN_ID)return;
+	try{await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:BSC_HEX}]})}
+	catch(e){if(e.code===4902)await window.ethereum.request({method:"wallet_addEthereumChain",params:[BSC_PARAMS]});else throw e}
+	}
+	async function connectInjected(){throw Error("This is a Safe-only Custom App. Open it inside multisig.bnbchain.org; standalone wallet connections are disabled.");await ensureBscInjected();rawProvider=window.ethereum;provider=new ethers.BrowserProvider(rawProvider);signer=await provider.getSigner();await finishConnection("Injected wallet")}
+	async function connectWalletConnect(){
+	throw Error("This is a Safe-only Custom App. WalletConnect is disabled; open the app inside multisig.bnbchain.org.");
+	if(WC_PROJECT_ID==="YOUR_WALLETCONNECT_PROJECT_ID")throw Error("Set your WalletConnect Cloud Project ID in the HTML first.");
+	let mod;try{mod=await import("https://esm.sh/@walletconnect/ethereum-provider@2.23.10")}catch(e){throw Error("Could not load WalletConnect v2: "+(e?.message||e))}
+	const EthereumProvider=mod.EthereumProvider||mod.default?.EthereumProvider||mod.default;if(!EthereumProvider?.init)throw Error("WalletConnect provider unavailable.");
+	const wc=await EthereumProvider.init({projectId:WC_PROJECT_ID,optionalChains:[97],showQrModal:true,methods:["eth_sendTransaction","personal_sign","eth_signTypedData","eth_signTypedData_v4"],events:["chainChanged","accountsChanged"],metadata:{name:"Fixed Rate USDT / INRP Pool",description:"Fixed-rate BSC Testnet pool",url:location.origin,icons:[]},rpcMap:{97:"https://data-seed-prebsc-1-s1.bnbchain.org:8545"}});
+	await wc.connect();rawProvider=wc;provider=new ethers.BrowserProvider(wc);signer=await provider.getSigner();await finishConnection("WalletConnect");
+	wc.on?.("accountsChanged",async(accounts)=>{if(!accounts?.length){await $("disconnect").onclick();return}try{signer=await provider.getSigner();await finishConnection("WalletConnect")}catch(e){console.warn(e)}});
+	wc.on?.("chainChanged",async()=>{try{signer=await provider.getSigner();await refreshNetwork()}catch(e){console.warn(e)}});
+	}
+	async function switchBsc(){throw Error("This is a Safe-only Custom App. Select BSC Testnet in the Safe interface; standalone network switching is disabled.");if(!rawProvider)throw Error("Connect a wallet first.");if(rawProvider===window.ethereum)await ensureBscInjected();else if(rawProvider.switchChain)await rawProvider.switchChain(97);else await rawProvider.request({method:"wallet_switchEthereumChain",params:[{chainId:BSC_HEX}]});await refreshNetwork()}
+	async function refreshNetwork(){if(!provider)return;const n=await provider.getNetwork();$("network").textContent="Chain ID: "+n.chainId+(n.chainId===BSC_CHAIN_ID?" — BSC Testnet detected.":" — Wrong network.")}
+	async function finishConnection(mode){if(window.parent!==window)throw Error("A separate wallet cannot be connected inside Safe. Reload the Custom App so it can initialize the Safe SDK.");const a=await signer.getAddress(),n=await provider.getNetwork();$("wallet").textContent="Connected: "+short(a)+" ("+a+")";$("walletMode").textContent="Connection: "+mode;$("network").textContent="Chain ID: "+n.chainId+(n.chainId===BSC_CHAIN_ID?" — BSC Testnet detected.":" — Wrong network.");await load()}
+	async function load(){
+	if(window.parent===window||!safeMode)throw Error("This is a Safe-only Custom App. Open it inside multisig.bnbchain.org and wait for Safe connection before loading the pool.");
+	const a=TESTNET_POOL;$("poolAddress").value=a;
+	if(window.parent!==window&&!safeMode){
+	const detected=await detectSafe();
+	if(!detected||!safeMode)throw Error("Safe connection is not initialized. "+(safeDetectionError?err(safeDetectionError):"The Safe Apps SDK did not return a Safe account.")+" Reload the hosted Custom App in Safe and verify that its origin is allowed.");
+	}
+	if(!safeMode&&!provider){if(window.ethereum)await connectInjected();else throw Error("Connect a wallet first.")}
+	if(!provider)throw Error("No read provider available.");
+	contract=new ethers.Contract(a,ABI,provider);const poolUsdt=(await contract.USDT()).toLowerCase(),poolInrp=(await contract.INRP()).toLowerCase();if(poolUsdt!==TESTNET_USDT.toLowerCase()||poolInrp!==TESTNET_INRP.toLowerCase())throw Error("Loaded contract token addresses do not match the configured BNB Testnet USDT/INRP V21 pool.");await refresh();await updateAdminVisibility();await preflight();$("poolStatus").textContent="Testnet V21 pool loaded: "+a;
+	}
+	
+	async function refresh(){
+	const p=await contract.getPoolInfo();const [ownerAddr,usdtAddr,inrpAddr,rate,buyFee,sellFee,usdtBal,inrpBal,fees,availUsdt,isPaused]=p;
+	const connected=await accountAddress()||"";const black=connected?await contract.blacklisted(connected):false;
+	$("stats").innerHTML=[["Owner",short(ownerAddr)],["USDT token",short(usdtAddr)],["INRP token",short(inrpAddr)],["Rate","1 USDT = "+ethers.formatUnits(rate,18)+" INRP"],["Buy fee",(Number(buyFee)/100).toFixed(2)+"%"],["Sell fee",(Number(sellFee)/100).toFixed(2)+"%"],["USDT balance",ethers.formatUnits(usdtBal,18)],["INRP balance",ethers.formatUnits(inrpBal,6)],["Accrued fees",ethers.formatUnits(fees,18)],["Available USDT",ethers.formatUnits(availUsdt,18)],["Paused",isPaused?"YES":"NO"],["Connected blacklisted",black?"YES":"NO"]].map(x=>'<div class="stat">'+x[0]+'<b>'+x[1]+'</b></div>').join("")
+	}
+	function humanToBps(v){const n=Number(v);if(!Number.isFinite(n)||n<0||n>10)throw Error("Fee must be between 0 and 10%.");return BigInt(Math.round(n*100))}
+	function humanRate(v){const s=String(v||"").trim();if(!/^[0-9]+$/.test(s)||s==="0")throw Error("Rate must be a positive whole number, e.g. 99.");return BigInt(s)}
+	function amount(v,dec){if(!v||Number(v)<=0)throw Error("Enter a positive amount.");return ethers.parseUnits(String(v),dec)}
+	function addr(v){if(!ethers.isAddress(v))throw Error("Invalid address.");return v}
+	function minOut(q){return q}
+	async function allowanceInfo(tokenAddr,dec,label,amountHuman){if(!contract||!provider)return null;const t=new ethers.Contract(tokenAddr,ERC20ABI,provider),u=await accountAddress(),pool=await contract.getAddress();if(!u)return null;const bal=await t.balanceOf(u),allow=await t.allowance(u,pool),req=amountHuman?amount(amountHuman,dec):0n;return {bal,allow,req,label,dec}}
+	async function preflightBuy(){if(!contract||!$("buyAmount").value)return;const i=await allowanceInfo(await contract.USDT(),18,"USDT",$("buyAmount").value);if(!i)return;$("buyAllowance").textContent="USDT balance: "+ethers.formatUnits(i.bal,18)+" | Allowance: "+ethers.formatUnits(i.allow,18)+" | Required: "+ethers.formatUnits(i.req,18)+(i.bal<i.req?" — INSUFFICIENT BALANCE":i.allow<i.req?" — APPROVAL REQUIRED":" — READY")}
+	async function preflightSell(){if(!contract||!$("sellAmount").value)return;const i=await allowanceInfo(await contract.INRP(),6,"INRP",$("sellAmount").value);if(!i)return;$("sellAllowance").textContent="INRP balance: "+ethers.formatUnits(i.bal,6)+" | Allowance: "+ethers.formatUnits(i.allow,6)+" | Required: "+ethers.formatUnits(i.req,6)+(i.bal<i.req?" — INSUFFICIENT BALANCE":i.allow<i.req?" — APPROVAL REQUIRED":" — READY")}
+	async function preflight(){await preflightBuy();await preflightSell()}
+	async function quoteBuy(){const x=amount($("buyAmount").value,18),q=await contract.quoteBuy(x),m=minOut(q[1]);$("buyMin").value=ethers.formatUnits(m,6);$("buyQuote").textContent="USDT fee: "+ethers.formatUnits(q[0],18)+"\nQuoted INRP: "+ethers.formatUnits(q[1],6)+"\nMinimum INRP received: "+ethers.formatUnits(m,6);await preflightBuy()}
+	async function quoteSell(){const x=amount($("sellAmount").value,6),q=await contract.quoteSell(x),m=minOut(q[2]);$("sellMin").value=ethers.formatUnits(m,18);$("sellQuote").textContent="USDT gross: "+ethers.formatUnits(q[0],18)+"\nUSDT fee: "+ethers.formatUnits(q[1],18)+"\nQuoted USDT: "+ethers.formatUnits(q[2],18)+"\nMinimum USDT received: "+ethers.formatUnits(m,18);await preflightSell()}
+	function approvalMode(){return document.querySelector('input[name="approvalMode"]:checked')?.value||"exact"}
+	async function sendSafeTx(label,calls){if(!safeMode||!safeSdk)throw Error("Safe App context is unavailable.");if(!safeSdk.txs?.send)throw Error("Safe transaction interface is unavailable.");const r=await safeSdk.txs.send({txs:calls});setTx(label+" proposed to Safe. Safe transaction hash: "+(r.safeTxHash||""),r.safeTxHash);return r}
+	function encodeCall(to,abi,fn,args){const iface=new ethers.Interface(abi);return {to,value:"0",data:iface.encodeFunctionData(fn,args)}}
+	async function approveToken(tokenAddr,human,dec,label){const req=amount(human,dec),u=await accountAddress(),pool=await contract.getAddress(),t=new ethers.Contract(tokenAddr,ERC20ABI,provider),bal=await t.balanceOf(u),allow=await t.allowance(u,pool);if(bal<req)throw Error("Insufficient "+label+" balance.");if(allow>=req){setTx("Existing "+label+" allowance is sufficient.");return}
+	const target=approvalMode()==="unlimited"?ethers.MaxUint256:req;
+	if(safeMode){await sendSafeTx(label+" approval",[encodeCall(tokenAddr,ERC20ABI,"approve",[pool,target])]);return}
+	if(!signer)throw Error("Connect wallet first.");const tx=await new ethers.Contract(tokenAddr,ERC20ABI,signer).approve(pool,target);setTx(label+" approval submitted",tx.hash);await tx.wait();setTx(label+" approval confirmed",tx.hash);await preflight()}
+	async function execute(label,fn,args){if(safeMode){const data=contract.interface.encodeFunctionData(fn,args);return sendSafeTx(label,[{to:await contract.getAddress(),value:"0",data}])}if(!signer)throw Error("Connect wallet first.");const tx=await contract.connect(signer)[fn](...args);setTx(label+" submitted",tx.hash);await tx.wait();setTx(label+" confirmed",tx.hash);await refresh();return tx}
+	async function safeApproveAndExecute(label,tokenAddr,amountValue,fn,args,approvalLabel){const u=await accountAddress(),pool=await contract.getAddress(),t=new ethers.Contract(tokenAddr,ERC20ABI,provider),bal=await t.balanceOf(u),allow=await t.allowance(u,pool);if(bal<BigInt(amountValue))throw Error("Insufficient "+approvalLabel+" balance.");const calls=[];if(allow<BigInt(amountValue)){const target=approvalMode()==="unlimited"?ethers.MaxUint256:amountValue;calls.push(encodeCall(tokenAddr,ERC20ABI,"approve",[pool,target]))}calls.push({to:pool,value:"0",data:contract.interface.encodeFunctionData(fn,args)});return sendSafeTx(label,calls)}
+	async function buy(){const x=amount($("buyAmount").value,18),q=await contract.quoteBuy(x),m=minOut(q[1]);$("buyMin").value=ethers.formatUnits(m,6);const i=await allowanceInfo(await contract.USDT(),18,"USDT",$("buyAmount").value);if(i.bal<i.req)throw Error("Insufficient USDT balance.");if(i.allow<i.req)throw Error("Approve USDT first.");await execute("Buy INRP","buyINRP",[x,m]);await preflight()}
+	async function sell(){const x=amount($("sellAmount").value,6),q=await contract.quoteSell(x),m=minOut(q[2]);$("sellMin").value=ethers.formatUnits(m,18);const i=await allowanceInfo(await contract.INRP(),6,"INRP",$("sellAmount").value);if(i.bal<i.req)throw Error("Insufficient INRP balance.");if(i.allow<i.req)throw Error("Approve INRP first.");await execute("Sell INRP","sellINRP",[x,m]);await preflight()}
+	async function requireOwner(){if(!contract)throw Error("Load pool first.");if(window.parent!==window&&!safeMode)throw Error("Safe context is not initialized. Reload this Custom App inside Safe; a separate injected wallet cannot be used for owner actions.");const o=await contract.owner(),a=await accountAddress();if(!a)throw Error(safeMode?"Safe account is unavailable.":"Connect the pool owner wallet first.");if(o.toLowerCase()!==String(a).toLowerCase())throw Error("Connected "+(safeMode?"Safe":"wallet")+" is not the pool owner. Pool owner: "+o+"; connected account: "+a)}
+	async function adminTx(label,fn,args){await requireOwner();return execute(label,fn,args)}
+	async function updateAdminVisibility(){const panel=$("adminUI"),toggle=$("toggleAdminFunctions");panel.classList.add("hidden");panel.style.display="none";toggle.classList.add("hidden");toggle.style.display="none";if(!contract)return;try{const o=(await contract.owner()).toLowerCase(),a=(await accountAddress()||"").toLowerCase(),yes=!!a&&o===a;toggle.classList.toggle("hidden",!yes);toggle.style.display=yes?"block":"none";toggle.textContent="Show Admin Functions";$("publicNotice").textContent=yes?"Owner Safe connected. Admin functions are available.":"Public user mode."}catch(e){}}
+	async function adminParameters(){await adminTx("Set rate","setRate",[humanRate($("adminRate").value)]);await adminTx("Set fees","setFees",[humanToBps($("adminBuyFee").value),humanToBps($("adminSellFee").value)]);await refresh()}
+	async function adminDepositUSDT(){const x=amount($("depositUSDTAmount").value,18);if(safeMode){await safeApproveAndExecute("Deposit USDT",await contract.USDT(),x,"depositUSDT",[x],"USDT");return}await approveToken(await contract.USDT(),$("depositUSDTAmount").value,18,"USDT");await adminTx("Deposit USDT","depositUSDT",[x])}
+	async function adminDepositINRP(){const x=amount($("depositINRPAmount").value,6);if(safeMode){await safeApproveAndExecute("Deposit INRP",await contract.INRP(),x,"depositINRP",[x],"INRP");return}await approveToken(await contract.INRP(),$("depositINRPAmount").value,6,"INRP");await adminTx("Deposit INRP","depositINRP",[x])}
+	async function adminDepositBoth(){const u=$("depositUSDTAmount").value||"0",i=$("depositINRPAmount").value||"0";if(safeMode){const calls=[];const us=ethers.parseUnits(u,18),ir=ethers.parseUnits(i,6),pool=await contract.getAddress();if(us>0n){const t=await contract.USDT(),allow=await new ethers.Contract(t,ERC20ABI,provider).allowance(await accountAddress(),pool);if(allow<us)calls.push(encodeCall(t,ERC20ABI,"approve",[pool,approvalMode()==="unlimited"?ethers.MaxUint256:us]))}if(ir>0n){const t=await contract.INRP(),allow=await new ethers.Contract(t,ERC20ABI,provider).allowance(await accountAddress(),pool);if(allow<ir)calls.push(encodeCall(t,ERC20ABI,"approve",[pool,approvalMode()==="unlimited"?ethers.MaxUint256:ir]))}calls.push({to:pool,value:"0",data:contract.interface.encodeFunctionData("depositLiquidity",[us,ir])});await sendSafeTx("Deposit USDT + INRP",calls);return}if(Number(u)>0)await approveToken(await contract.USDT(),u,18,"USDT");if(Number(i)>0)await approveToken(await contract.INRP(),i,6,"INRP");await adminTx("Deposit both","depositLiquidity",[ethers.parseUnits(u,18),ethers.parseUnits(i,6)])}
+	function updateApprovalLabels(){$("approveUSDT").textContent=approvalMode()==="unlimited"?"Approve USDT (Unlimited)":"Approve USDT (Exact Amount)";$("approveINRP").textContent=approvalMode()==="unlimited"?"Approve INRP (Unlimited)":"Approve INRP (Exact Amount)"}
+	function initAdvancedToggles(){
+	const bind=(bid,pid,show,hide)=>{
+	const b=$(bid),p=$(pid);if(!b||!p)return;
+	b.onclick=(ev)=>{
+	ev.preventDefault();ev.stopPropagation();
+	const open=p.style.display!=="none"&&!p.classList.contains("hidden");
+	p.classList.toggle("hidden",open);p.style.display=open?"none":"block";b.textContent=open?show:hide;
+	};
+	};
+	bind("toggleDeveloperMode","developerModePanel","Show Developer Mode","Hide Developer Mode");
+	bind("toggleDeveloperAdminAbi","developerAdminAbiPanel","Show Developer Admin Read / Write","Hide Developer Admin Read / Write");
+	}
+	
+	const developerAdminUI={
+	renderRead(){const f=$("adminReadFunction").value;let s="";if(f==="blacklisted")s='<label>User address</label><input id="darAddress" placeholder="0x...">';else if(f==="quoteBuy")s='<label>USDT amount</label><input id="darUSDT" placeholder="100" inputmode="decimal">';else if(f==="quoteSell")s='<label>INRP amount</label><input id="darINRP" placeholder="9900" inputmode="decimal">';$("adminReadFields").innerHTML=s;$("adminReadResult").textContent="—";},
+	renderWrite(){const f=$("adminWriteFunction").value;const F=(l,id,p,t="text")=>`<label>${l}</label><input id="${id}" type="${t}" ${t==="number"?'step="any"':''} placeholder="${p}">`,A=(l,id)=>F(l,id,"0x...");let s="";
+	if(f==="setRate")s=F("Fixed rate — INRP per 1 USDT","dawRate","99","number");
+	else if(f==="setFees")s=F("Buy fee (%)","dawBuyFee","0.30","number")+F("Sell fee (%)","dawSellFee","0.30","number");
+	else if(f==="blacklist"||f==="unblacklist")s=A("User address","dawAccount");
+	else if(f==="depositUSDT")s=F("USDT amount","dawUSDT","1000","number");
+	else if(f==="depositINRP")s=F("INRP amount","dawINRP","50000","number");
+	else if(f==="depositLiquidity")s=F("USDT amount","dawUSDT","1000","number")+F("INRP amount","dawINRP","50000","number");
+	else if(f==="withdrawUSDT")s=F("USDT amount","dawUSDT","1000","number")+A("Recipient","dawTo");
+	else if(f==="withdrawINRP")s=F("INRP amount","dawINRP","50000","number")+A("Recipient","dawTo");
+	else if(f==="withdrawLiquidity")s=F("USDT amount","dawUSDT","1000","number")+F("INRP amount","dawINRP","50000","number")+A("Recipient","dawTo");
+	else if(f==="withdrawFees")s=F("USDT fee amount","dawUSDT","10","number")+A("Recipient","dawTo");
+	else if(f==="withdrawAllFees")s=A("Recipient","dawTo");
+	else if(f==="rescueToken")s=A("BEP-20 token address","dawToken")+F("Token amount","dawTokenAmount","100","number")+A("Recipient","dawTo")+'<div id="dawTokenDecimals" class="small"></div>';
+	else if(f==="rescueBNB")s=F("BNB amount","dawBNB","0.01","number")+A("Recipient","dawTo");
+	else if(f==="transferOwnership")s=A("New owner address","dawNewOwner");
+	else if(f==="renounceOwnership")s="<div class='notice err'><b>Warning:</b> Renouncing ownership permanently removes owner control.</div>";
+	$("adminWriteFields").innerHTML=s;$("adminWritePrepared").textContent="";$("adminWriteStatus").textContent="";
+	if(f==="rescueToken")$("dawToken")?.addEventListener("input",async()=>{try{if(ethers.isAddress($("dawToken").value)){const t=new ethers.Contract($("dawToken").value,["function decimals() view returns(uint8)"],provider);$("dawTokenDecimals").textContent="Detected token decimals: "+await t.decimals()+". Human amount will be converted automatically.";}else $("dawTokenDecimals").textContent="";}catch(e){$("dawTokenDecimals").textContent="Could not read token decimals.";}});
+	},
+	async read(){try{if(!contract)throw Error("Load the pool first.");const f=$("adminReadFunction").value;let r;if(f==="getPoolInfo")r=await contract.getPoolInfo();else if(f==="owner")r=await contract.owner();else if(f==="paused")r=await contract.paused();else if(f==="rateWAD")r="1 USDT = "+ethers.formatUnits(await contract.rateWAD(),18)+" INRP";else if(f==="buyFeeBps")r=(Number(await contract.buyFeeBps())/100).toFixed(2)+"%";else if(f==="sellFeeBps")r=(Number(await contract.sellFeeBps())/100).toFixed(2)+"%";else if(f==="feesAccruedUSDT")r=ethers.formatUnits(await contract.feesAccruedUSDT(),18)+" USDT";else if(f==="availableUSDT")r=ethers.formatUnits(await contract.availableUSDT(),18)+" USDT";else if(f==="availableINRP")r=ethers.formatUnits(await contract.availableINRP(),6)+" INRP";else if(f==="getBalances"){const x=await contract.getBalances();r={usdtBalance:ethers.formatUnits(x[0],18)+" USDT",inrpBalance:ethers.formatUnits(x[1],6)+" INRP",accruedFees:ethers.formatUnits(x[2],18)+" USDT",availableUSDT:ethers.formatUnits(x[3],18)+" USDT"};}else if(f==="blacklisted")r=await contract.blacklisted(addr($("darAddress").value));else if(f==="quoteBuy"){const q=await contract.quoteBuy(amount($("darUSDT").value,18));r={usdtFee:ethers.formatUnits(q[0],18)+" USDT",inrpOut:ethers.formatUnits(q[1],6)+" INRP"};}else if(f==="quoteSell"){const q=await contract.quoteSell(amount($("darINRP").value,6));r={usdtGross:ethers.formatUnits(q[0],18)+" USDT",usdtFee:ethers.formatUnits(q[1],18)+" USDT",usdtOut:ethers.formatUnits(q[2],18)+" USDT"};}$("adminReadResult").textContent=typeof r==="string"?r:JSON.stringify(r?.map?.(x=>x?.toString?.()??x)??r,null,2);}catch(e){$("adminReadResult").textContent="Error: "+err(e);}},
+	async write(){try{if(!contract)throw Error("Load the pool first.");const f=$("adminWriteFunction").value;let a=[];
+	if(f==="setRate")a=[humanRate($("dawRate").value)];
+	else if(f==="setFees")a=[humanToBps($("dawBuyFee").value),humanToBps($("dawSellFee").value)];
+	else if(f==="blacklist"||f==="unblacklist")a=[addr($("dawAccount").value)];
+	else if(f==="depositUSDT"){a=[amount($("dawUSDT").value,18)];await approveToken(await contract.USDT(),$("dawUSDT").value,18,"USDT");}
+	else if(f==="depositINRP"){a=[amount($("dawINRP").value,6)];await approveToken(await contract.INRP(),$("dawINRP").value,6,"INRP");}
+	else if(f==="depositLiquidity"){const u=$("dawUSDT").value||"0",i=$("dawINRP").value||"0";if(Number(u)>0)await approveToken(await contract.USDT(),u,18,"USDT");if(Number(i)>0)await approveToken(await contract.INRP(),i,6,"INRP");a=[ethers.parseUnits(u,18),ethers.parseUnits(i,6)];}
+	else if(f==="withdrawUSDT")a=[amount($("dawUSDT").value,18),addr($("dawTo").value)];
+	else if(f==="withdrawINRP")a=[amount($("dawINRP").value,6),addr($("dawTo").value)];
+	else if(f==="withdrawLiquidity")a=[ethers.parseUnits($("dawUSDT").value||"0",18),ethers.parseUnits($("dawINRP").value||"0",6),addr($("dawTo").value)];
+	else if(f==="withdrawFees")a=[amount($("dawUSDT").value,18),addr($("dawTo").value)];
+	else if(f==="withdrawAllFees")a=[addr($("dawTo").value)];
+	else if(f==="rescueToken"){const token=addr($("dawToken").value);const t=new ethers.Contract(token,["function decimals() view returns(uint8)"],provider);a=[token,ethers.parseUnits($("dawTokenAmount").value,await t.decimals()),addr($("dawTo").value)];}
+	else if(f==="rescueBNB")a=[ethers.parseEther($("dawBNB").value),addr($("dawTo").value)];
+	else if(f==="transferOwnership")a=[addr($("dawNewOwner").value)];
+	else if(f==="renounceOwnership"){if(!confirm("Renounce ownership permanently? Continue?"))return;}
+	$("adminWritePrepared").textContent="Human-readable values validated and converted internally.";await adminTx("Developer Admin: "+f,f,a);$("adminWriteStatus").textContent="Transaction completed/proposed successfully.";
+	}catch(e){$("adminWriteStatus").textContent="Error: "+err(e);}}
+	};
+	
+	$("adminReadFunction").onchange=()=>developerAdminUI.renderRead();
+	$("adminWriteFunction").onchange=()=>developerAdminUI.renderWrite();
+	$("adminReadExecute").onclick=()=>developerAdminUI.read();
+	$("adminWriteExecute").onclick=()=>developerAdminUI.write();
+	developerAdminUI.renderRead();
+	developerAdminUI.renderWrite();
+	$("toggleAdminFunctions").onclick=(ev)=>{
+	ev.preventDefault();ev.stopPropagation();
+	const p=$("adminUI"),b=$("toggleAdminFunctions");
+	const open=p.style.display!=="none"&&!p.classList.contains("hidden");
+	p.classList.toggle("hidden",open);p.style.display=open?"none":"block";
+	b.textContent=open?"Show Admin Functions":"Hide Admin Functions";
+	};
+	$("loadPool").onclick=()=>load().then(()=>{ $("poolStatus").textContent="Testnet V21 pool loaded: "+TESTNET_POOL; }).catch(e=>{ $("poolStatus").textContent="Load failed: "+err(e); alert(err(e)); });
+	$("connectInjected").onclick=()=>connectInjected().catch(e=>alert(err(e)));
+	$("connectWC").onclick=()=>connectWalletConnect().catch(e=>alert(err(e)));
+	$("switchBsc").onclick=()=>switchBsc().catch(e=>alert(err(e)));
+	$("disconnect").onclick=async()=>{
+	try{if(rawProvider?.disconnect)await rawProvider.disconnect();}catch(e){}
+	rawProvider=null;provider=null;signer=null;contract=null;safeSdk=null;safeInfo=null;
+	$("wallet").textContent="Not connected";$("walletMode").textContent="";
+	$("network").textContent="";$("safeStatus").textContent="";
+	$("stats").innerHTML="";$("poolStatus").textContent="";
+	$("adminUI").classList.add("hidden");
+	$("toggleAdminFunctions").classList.add("hidden");
+	};
+	$("quoteBuy").onclick=()=>quoteBuy().catch(e=>$("buyQuote").textContent=err(e));$("quoteSell").onclick=()=>quoteSell().catch(e=>$("sellQuote").textContent=err(e));
+	$("approveUSDT").onclick=()=>approveToken(contract.USDT(),$("buyAmount").value,18,"USDT").catch(e=>alert(err(e)));
+	async function approveAndBuy(){
+	const x=amount($("buyAmount").value,18),q=await contract.quoteBuy(x),m=minOut(q[1]);$("buyMin").value=ethers.formatUnits(m,6);
+	const token=await contract.USDT(),pool=await contract.getAddress(),a=await accountAddress(),t=new ethers.Contract(token,ERC20ABI,provider),bal=await t.balanceOf(a);
+	if(bal<x)throw Error("Insufficient USDT balance.");
+	if(safeMode){const calls=[];const allow=await t.allowance(a,pool);if(allow<x)calls.push(encodeCall(token,ERC20ABI,"approve",[pool,approvalMode()==="unlimited"?ethers.MaxUint256:x]));calls.push({to:pool,value:"0",data:contract.interface.encodeFunctionData("buyINRP",[x,m])});await sendSafeTx("Approve USDT + Buy INRP",calls);return;}
+	await approveToken(token,$("buyAmount").value,18,"USDT");await buy();
+	}
+	async function approveAndSell(){
+	const x=amount($("sellAmount").value,6),q=await contract.quoteSell(x),m=minOut(q[2]);$("sellMin").value=ethers.formatUnits(m,18);
+	const token=await contract.INRP(),pool=await contract.getAddress(),a=await accountAddress(),t=new ethers.Contract(token,ERC20ABI,provider),bal=await t.balanceOf(a);
+	if(bal<x)throw Error("Insufficient INRP balance.");
+	if(safeMode){const calls=[];const allow=await t.allowance(a,pool);if(allow<x)calls.push(encodeCall(token,ERC20ABI,"approve",[pool,approvalMode()==="unlimited"?ethers.MaxUint256:x]));calls.push({to:pool,value:"0",data:contract.interface.encodeFunctionData("sellINRP",[x,m])});await sendSafeTx("Approve INRP + Sell INRP",calls);return;}
+	await approveToken(token,$("sellAmount").value,6,"INRP");await sell();
+	}
+	$("approveBuyExact").onclick=()=>approveAndBuy().catch(e=>alert(err(e)));
+	$("approveSellExact").onclick=()=>approveAndSell().catch(e=>alert(err(e)));
+	
+	$("approveINRP").onclick=()=>approveToken(contract.INRP(),$("sellAmount").value,6,"INRP").catch(e=>alert(err(e)));
+	$("buy").onclick=()=>buy().catch(e=>alert(err(e)));$("sell").onclick=()=>sell().catch(e=>alert(err(e)));
+	$("setParameters").onclick=()=>adminParameters().catch(e=>alert(err(e)));$("pauseBtn").onclick=()=>adminTx("Pause","pause",[]).catch(e=>alert(err(e)));$("unpauseBtn").onclick=()=>adminTx("Unpause","unpause",[]).catch(e=>alert(err(e)));
+	$("blacklistBtn").onclick=()=>adminTx("Blacklist","blacklist",[addr($("blacklistAddress").value)]).catch(e=>alert(err(e)));$("unblacklistBtn").onclick=()=>adminTx("Unblacklist","unblacklist",[addr($("unblacklistAddress").value)]).catch(e=>alert(err(e)));
+	$("depositUSDTBtn").onclick=()=>adminDepositUSDT().catch(e=>alert(err(e)));$("depositINRPBtn").onclick=()=>adminDepositINRP().catch(e=>alert(err(e)));$("depositBothBtn").onclick=()=>adminDepositBoth().catch(e=>alert(err(e)));
+	$("withdrawUSDTBtn").onclick=()=>adminTx("Withdraw USDT","withdrawUSDT",[amount($("withdrawUSDTAmount").value,18),addr($("withdrawTo").value)]).catch(e=>alert(err(e)));
+	$("withdrawINRPBtn").onclick=()=>adminTx("Withdraw INRP","withdrawINRP",[amount($("withdrawINRPAmount").value,6),addr($("withdrawTo").value)]).catch(e=>alert(err(e)));
+	$("withdrawBothBtn").onclick=()=>adminTx("Withdraw both","withdrawLiquidity",[ethers.parseUnits($("withdrawUSDTAmount").value||"0",18),ethers.parseUnits($("withdrawINRPAmount").value||"0",6),addr($("withdrawTo").value)]).catch(e=>alert(err(e)));
+	$("withdrawFeeBtn").onclick=()=>adminTx("Withdraw fees","withdrawFees",[amount($("feeAmount").value,18),addr($("feeTo").value)]).catch(e=>alert(err(e)));$("withdrawAllFeeBtn").onclick=()=>adminTx("Withdraw all fees","withdrawAllFees",[addr($("feeTo").value)]).catch(e=>alert(err(e)));
+	$("rescueTokenBtn").onclick=async()=>{
+	try{
+	const token=addr($("rescueToken").value);
+	const t=new ethers.Contract(token,["function decimals() view returns(uint8)"],provider);
+	const d=await t.decimals();
+	await adminTx("Rescue token","rescueToken",[token,ethers.parseUnits($("rescueAmount").value,d),addr($("rescueTo").value)]);
+	}catch(e){alert(err(e))}
+	};
+	$("rescueBNBBtn").onclick=()=>adminTx("Rescue BNB","rescueBNB",[ethers.parseEther($("rescueBNBAmount").value),addr($("rescueBNBTo").value)]).catch(e=>alert(err(e)));
+	$("transferOwnershipBtn").onclick=()=>adminTx("Transfer ownership","transferOwnership",[addr($("newOwner").value)]).catch(e=>alert(err(e)));
+	$("renounceOwnershipBtn").onclick=()=>{if(confirm("WARNING: renouncing ownership permanently removes owner control. Continue?"))adminTx("Renounce ownership","renounceOwnership",[]).catch(e=>alert(err(e)))};
+	document.querySelectorAll('input[name="approvalMode"]').forEach(e=>e.addEventListener("change",updateApprovalLabels));updateApprovalLabels();
+	$("buyAmount").addEventListener("input",()=>preflightBuy().catch(()=>{}));$("sellAmount").addEventListener("input",()=>preflightSell().catch(()=>{}));
+	initAdvancedToggles();
+	async function initializeApp(){try{const inSafe=await detectSafe();if(inSafe){await load();return;}$("safeStatus").textContent="Standalone browser mode. This Safe-only app must be opened inside multisig.bnbchain.org.";}catch(e){console.warn("App initialization:",e)}}
+	setStandaloneWalletControlsDisabled(true);
+	if(window.parent!==window){document.body.classList.add("safe-context-pending");$("walletMode").textContent="Connection: Initializing Safe…";}
+	const startSafeOnlyApp=()=>setTimeout(()=>initializeApp(),150);
+	if(document.readyState==="loading")window.addEventListener("DOMContentLoaded",startSafeOnlyApp,{once:true});else startSafeOnlyApp();
+	$("adminUI").classList.add("hidden");$("adminUI").style.display="none";
+	$("humanAdminAbiPanel").classList.add("hidden");$("humanAdminAbiPanel").style.display="none";
+	$("developerModePanel").classList.add("hidden");$("developerModePanel").style.display="none";
+	$("developerAdminAbiPanel").classList.add("hidden");$("developerAdminAbiPanel").style.display="none";
+	// Safe-only build: standalone injected-wallet event listeners are intentionally omitted.
+	
+	$("developerRefresh")?.addEventListener("click",async()=>{
+	try{
+	if(!contract)throw Error("Load the pool first.");
+	const p=await contract.getPoolInfo();
+	$("developerResult").textContent=JSON.stringify(
+	p.map?.((x)=>x?.toString?.()??x)??p,null,2
+	);
+	}catch(e){
+	$("developerResult").textContent=err(e);
+	}
+	});
+	
+	</script>
+	
+	
+	<script>
+	(function(){
+	const H={
+	q:id=>document.getElementById(id),
+	units:(v,d)=>ethers.parseUnits(String(v),d),
+	bps:v=>{
+	const n=Number(v);
+	if(!Number.isFinite(n)||n<0||n>10)throw Error("Fee must be between 0 and 10%.");
+	return BigInt(Math.round(n*100));
+	},
+	render(){
+	const f=this.q("humanAdminFunction").value, F=(l,id,p,t="number")=>`<label>${l}</label><input id="${id}" type="${t}" ${t==="number"?'step="any"':''} placeholder="${p}">`, A=(l,id)=>F(l,id,"0x...","text");
+	let s="";
+	if(f==="setRate")s=F("INRP per 1 USDT","haRate","99");
+	else if(f==="setFees")s=F("Buy fee (%)","haBuyFee","0.30")+F("Sell fee (%)","haSellFee","0.30");
+	else if(f==="depositUSDT")s=F("USDT amount","haUSDT","1000");
+	else if(f==="depositINRP")s=F("INRP amount","haINRP","50000");
+	else if(f==="depositLiquidity")s=F("USDT amount","haUSDT","1000")+F("INRP amount","haINRP","50000");
+	else if(f==="withdrawUSDT")s=F("USDT amount","haUSDT","1000")+A("Recipient","haTo");
+	else if(f==="withdrawINRP")s=F("INRP amount","haINRP","50000")+A("Recipient","haTo");
+	else if(f==="withdrawLiquidity")s=F("USDT amount","haUSDT","1000")+F("INRP amount","haINRP","50000")+A("Recipient","haTo");
+	else if(f==="withdrawFees")s=F("USDT fee amount","haUSDT","10")+A("Recipient","haTo");
+	else if(f==="withdrawAllFees")s=A("Recipient","haTo");
+	else if(f==="blacklist"||f==="unblacklist")s=A("User address","haAccount");
+	else if(f==="rescueToken")s=A("BEP-20 token","haToken")+F("Token amount (human units)","haTokenAmount","100")+A("Recipient","haTo");
+	else if(f==="rescueBNB")s=F("BNB amount","haBNB","0.01")+A("Recipient","haTo");
+	else if(f==="transferOwnership")s=A("New owner","haNewOwner");
+	else if(f==="renounceOwnership")s="<div class='notice err'><b>Warning:</b> This permanently removes owner control.</div>";
+	this.q("humanAdminFields").innerHTML=s;
+	this.q("humanAdminPrepared").textContent="";
+	this.q("humanAdminStatus").textContent="";
+	},
+	async execute(){
+	try{
+	if(!contract)throw Error("Load the pool first.");
+	const f=this.q("humanAdminFunction").value; let a=[];
+	switch(f){
+	case "setRate":a=[this.units(this.q("haRate").value,18)];break;
+	case "setFees":a=[this.bps(this.q("haBuyFee").value),this.bps(this.q("haSellFee").value)];break;
+	case "depositUSDT":a=[this.units(this.q("haUSDT").value,18)];break;
+	case "depositINRP":a=[this.units(this.q("haINRP").value,6)];break;
+	case "depositLiquidity":a=[this.units(this.q("haUSDT").value||"0",18),this.units(this.q("haINRP").value||"0",6)];break;
+	case "withdrawUSDT":a=[this.units(this.q("haUSDT").value,18),addr(this.q("haTo").value)];break;
+	case "withdrawINRP":a=[this.units(this.q("haINRP").value,6),addr(this.q("haTo").value)];break;
+	case "withdrawLiquidity":a=[this.units(this.q("haUSDT").value||"0",18),this.units(this.q("haINRP").value||"0",6),addr(this.q("haTo").value)];break;
+	case "withdrawFees":a=[this.units(this.q("haUSDT").value,18),addr(this.q("haTo").value)];break;
+	case "withdrawAllFees":a=[addr(this.q("haTo").value)];break;
+	case "blacklist":
+	case "unblacklist":a=[addr(this.q("haAccount").value)];break;
+	case "rescueToken":{
+	const token=addr(this.q("haToken").value);
+	const t=new ethers.Contract(token,["function decimals() view returns(uint8)"],provider);
+	a=[token,ethers.parseUnits(this.q("haTokenAmount").value,await t.decimals()),addr(this.q("haTo").value)];
+	break;
+	}
+	case "rescueBNB":a=[this.units(this.q("haBNB").value,18),addr(this.q("haTo").value)];break;
+	case "transferOwnership":a=[addr(this.q("haNewOwner").value)];break;
+	case "renounceOwnership":if(!confirm("Renounce ownership permanently? Continue?"))return;break;
+	}
+	this.q("humanAdminPrepared").textContent="Converted arguments: "+a.map(x=>x?.toString?.()??String(x)).join(" | ");
+	await adminTx("Admin ABI: "+f,f,a);
+	this.q("humanAdminStatus").textContent="Transaction completed/proposed successfully.";
+	}catch(e){this.q("humanAdminStatus").textContent="Error: "+err(e)}
+	}
+	};
+	window.humanAdminUI=H;
+	document.addEventListener("DOMContentLoaded",()=>{
+	$("toggleHumanAdminAbi").onclick=(ev)=>{
+	ev.preventDefault();ev.stopPropagation();
+	const p=$("humanAdminAbiPanel"),b=$("toggleHumanAdminAbi");
+	const open=p.style.display!=="none"&&!p.classList.contains("hidden");
+	p.classList.toggle("hidden",open);p.style.display=open?"none":"block";
+	b.textContent=open?"Show Human-Readable Admin ABI Read / Write":"Hide Human-Readable Admin ABI Read / Write";
+	};
+	$("humanAdminFunction").onchange=()=>H.render();
+	$("humanAdminExecute").onclick=()=>H.execute();
+	H.render();
+	});
+	})();
+	</script>
+
+	
+	</body>
+	</html>
+	
+
