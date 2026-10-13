@@ -1,3 +1,4 @@
+
 	<!doctype html>
 	
 	<html lang="en">
@@ -292,7 +293,14 @@
 	SDK=safeSdkClass(mod);
 	}
 	if(typeof SDK!=="function")throw Error("Safe Apps SDK constructor was not available. Check that the Safe Apps SDK script loaded.");
-	safeSdk=new SDK({allowedDomains:[/^multisig\.bnbchain\.org$/, /^system4trading\.github\.io$/]});
+	safeSdk=new SDK({allowedDomains:[
+        /^https?:\/\/([^/]+\.)?system4trading\.com(:\d+)?$/,
+        /^https?:\/\/dapps\.system4trading\.com(:\d+)?$/,
+        /^https?:\/\/usdtinrp-testnet\.system4trading\.com(:\d+)?$/,
+        /^https?:\/\/testnet-usdtinrp\.system4trading\.com(:\d+)?$/,
+        /^https?:\/\/system4trading\.github\.io(:\d+)?$/,
+        /^https?:\/\/multisig\.bnbchain\.org(:\d+)?$/
+    ]});
 	safeInfo=await Promise.race([
 	safeSdk.safe.getInfo(),
 	new Promise((_,reject)=>setTimeout(()=>reject(Error("Timed out waiting for the Safe Apps SDK handshake. Reopen the app from the Safe interface and verify the hosted URL.")),12000))
@@ -313,8 +321,8 @@
 	safeSdk=null;safeInfo=null;safeMode=false;
 	if(window.parent!==window){
 	document.body.classList.remove("safe-context-pending");document.body.classList.add("safe-context-error");setStandaloneWalletControlsDisabled(true);
-	$("safeStatus").textContent="Safe iframe detected, but the Safe Apps SDK handshake failed. Wallet connection buttons are disabled; reload the Custom App in Safe or check SDK/network access.";
-	$("publicNotice").textContent="Safe connection could not be initialized. Reload this Custom App inside Safe before proposing transactions.";
+	$("safeStatus").textContent="Safe iframe detected, but Safe context verification failed. Wallet actions remain disabled. Check the Safe SDK handshake, allowed origin, and BSC Testnet chain (97).";
+	$("publicNotice").textContent="Safe context is not verified. Reload this Custom App inside multisig.bnbchain.org on BSC Testnet (chain 97). Transactions remain disabled.";
 	} else {
 	document.body.classList.remove("safe-context-error","safe-context-pending");setStandaloneWalletControlsDisabled(false);
 	$("safeStatus").textContent="Standalone browser mode.";
